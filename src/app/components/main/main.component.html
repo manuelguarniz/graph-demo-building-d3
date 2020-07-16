@@ -1,0 +1,17 @@
+<mat-card class="container">
+  <mat-card-title class="title">
+    Graficos
+  </mat-card-title>
+  <mat-card-content id="delivery" #delivery>
+    <div id="chartAndDataContainer">
+      <div id="chartContainer">
+        <app-chart-empty
+          #areaChart
+          [data]="chartData"
+          [xMax]="100"
+          [yMax]="100"
+        ></app-chart-empty>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
