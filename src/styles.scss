@@ -2,3 +2,24 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.linePulse {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+// body { font: 12px Arial;}
+
+// path {
+//     stroke: steelblue;
+//     stroke-width: 2;
+//     fill: none;
+// }
+
+// .axis path,
+// .axis line {
+//     fill: none;
+//     stroke: grey;
+//     stroke-width: 1;
+//     shape-rendering: crispEdges;
+// }
