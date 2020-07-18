@@ -78,6 +78,6 @@ export class AppComponent implements AfterViewInit, AfterContentInit {
     ];
     this.data.forEach(item => {
       item.close = (item.close * Math.random() + 1) * 100;
-    })
+    });
   }
 }
