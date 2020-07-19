@@ -10,6 +10,7 @@ import { ChartLineComponent } from './components/chart-line/chart-line.component
 import { NewChartComponent } from './components/new-chart/new-chart.component';
 import { ChartService } from './components/new-chart/chart.service';
 import { HttpClientModule } from '@angular/common/http';
+import { LeartD3Component } from './components/leart-d3/leart-d3.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     ChartEmptyComponent,
     ChartLineComponent,
     NewChartComponent,
+    LeartD3Component,
   ],
   imports: [
     BrowserModule,
