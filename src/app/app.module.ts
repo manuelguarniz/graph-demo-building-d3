@@ -8,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { ChartLineComponent } from './components/chart-line/chart-line.component';
 import { NewChartComponent } from './components/new-chart/new-chart.component';
+import { ChartService } from './components/new-chart/chart.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,8 +23,11 @@ import { NewChartComponent } from './components/new-chart/new-chart.component';
     BrowserModule,
     BrowserAnimationsModule,
     MatCardModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    ChartService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

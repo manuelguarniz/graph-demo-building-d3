@@ -1,25 +1,34 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #1f1b3c;
+}
 
 .linePulse {
   fill: none;
-  stroke: steelblue;
+  stroke: #c7bc24;
   stroke-width: 2px;
 }
-// body { font: 12px Arial;}
-
-// path {
-//     stroke: steelblue;
-//     stroke-width: 2;
-//     fill: none;
-// }
-
-// .axis path,
-// .axis line {
-//     fill: none;
-//     stroke: grey;
-//     stroke-width: 1;
-//     shape-rendering: crispEdges;
-// }
+.xAxis {
+  color: #c7bc24;
+  .tick {
+    display: none;
+  }
+}
+.yAxis {
+  color: #2d2a52;
+  .tick > text {
+    color: #c7bc24;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  .tick > line {
+    color: #2d2a52;
+  }
+}
