@@ -19,9 +19,17 @@ export class LeartD3Component implements OnInit {
   }
 
   graficoBarras() {
-    const w = 500;
-    const h = 100;
-    const padding = 1;
+    const margin = {
+      top: 40,
+      bottom: 40,
+      left: 40,
+      right: 40,
+    };
+    const w = 500 + margin.left + margin.right;
+    const h = 100 + margin.top + margin.bottom;
+    const wBard = w - margin.left - margin.right;
+    const hBar = h - margin.top - margin.bottom;
+    const padding = 2;
     let dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
       11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
     // const dataset = [ 5, 10, 15, 20, 25];
@@ -40,12 +48,12 @@ export class LeartD3Component implements OnInit {
       .enter()
       .append('rect')
       .attr('x', (d: number, i: number) => {
-        return i * (w / dataset.length);
+        return i * (wBard / dataset.length) + margin.left;
       })
       .attr('y', (d: number) => {
-        return h - d;
+        return hBar - d + margin.top;
       })
-      .attr('width', w / dataset.length - padding)
+      .attr('width', wBard / dataset.length - padding)
       .attr('height', (d: number) => {
         return d;
       })
@@ -60,10 +68,10 @@ export class LeartD3Component implements OnInit {
       .append('text')
       .text((d: number) => d)
       .attr('x', (d: number, i: number) => {
-        return i * (w / dataset.length) + (w / dataset.length - padding) / 2;
+        return i * (wBard / dataset.length) + (wBard / dataset.length - padding) / 2 + margin.left;
       })
       .attr('y', (d: number) => {
-        return h - d + 15;
+        return hBar - d + 15 + margin.top;
       })
       .attr('font-family', 'sans-serif')
       .attr('font-size', '11px')
