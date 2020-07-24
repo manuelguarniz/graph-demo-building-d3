@@ -9,6 +9,7 @@ import {
 import { ChartLineComponent } from './components/chart-line/chart-line.component';
 import { NewChartComponent } from './components/new-chart/new-chart.component';
 import { ChartService } from './components/new-chart/chart.service';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,8 @@ import { ChartService } from './components/new-chart/chart.service';
 export class AppComponent implements OnInit, AfterContentInit {
   // @ViewChild('chart', { static: true }) chart: NewChartComponent;
 
+  name: string;
+
   title = 'demo-d3';
   private refreshInterval: any;
   step = 0;
@@ -26,10 +29,15 @@ export class AppComponent implements OnInit, AfterContentInit {
   private persistenceData = [];
 
   constructor(
-    private chartService: ChartService
+    private chartService: ChartService,
+    private appService: AppService,
   ) {}
 
   ngOnInit(): void {
+  }
+
+  changeModel(value: string) {
+    // this.appService.setName(value);
   }
 
   ngAfterContentInit(): void {

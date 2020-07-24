@@ -1,0 +1,6 @@
+<p>test-subject works!</p>
+<!-- <span>{{ name }}</span> -->
+
+<input #nombre type="text" [(ngModel)]="name" (ngModelChange)="changeModel(nombre.value)">
+
+<button (click)="enviarDatos()">enviar datos</button>
