@@ -7,14 +7,14 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  // background-color: #1f1b3c;
+  background-color: #1f1b3c;
 }
 
-.linePulse {
-  fill: none;
-  stroke: #c7bc24;
-  stroke-width: 2px;
-}
+// .linePulse {
+//   fill: none;
+//   stroke: #c7bc24;
+//   stroke-width: 2px;
+// }
 .xAxis {
   color: #c7bc24;
   .tick {
@@ -22,13 +22,34 @@ body {
   }
 }
 .yAxis {
-  color: #2d2a52;
+  stroke: #c7bc24;
+  .domain {
+    stroke: #2d2a52;
+  }
   .tick > text {
-    color: #c7bc24;
-    font-size: 1.5em;
-    font-weight: bold;
+    stroke: #c7bc24;
   }
   .tick > line {
-    color: #2d2a52;
+    stroke: transparent;
   }
+}
+
+.area-custom-color {
+  fill: url(#area-gradient);
+  // fill: #4ca3bd;
+}
+.line {
+  fill: none;
+  stroke: #d9d965;
+  stroke-width: 3px;
+}
+
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+
+.grid path {
+  stroke-width: 0;
 }

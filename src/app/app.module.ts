@@ -36,7 +36,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatCardModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule,
+    // AppRoutingModule,
   ],
   providers: [
     ChartService,
