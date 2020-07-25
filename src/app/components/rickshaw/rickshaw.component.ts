@@ -2,6 +2,11 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 import * as moment from 'moment';
 
+interface DataCsv {
+  date: Date;
+  value: number;
+}
+
 @Component({
   selector: 'app-rickshaw',
   templateUrl: './rickshaw.component.html',
@@ -26,7 +31,7 @@ export class RickshawComponent implements OnInit, AfterViewInit {
   yAxis: any;
   y: any;
   x: any;
-  data: any;
+  data: { date: Date, value: number }[] = [];
   chart: any;
   valueline: any;
 
@@ -40,16 +45,16 @@ export class RickshawComponent implements OnInit, AfterViewInit {
   }
 
   loadData() {
-    d3.csv('assets/csv/aapl.csv').then((res) => {
+    d3.csv('assets/csv/trama.csv').then((res) => {
       this.data = Object.assign(res.map(({ date, close }) => {
-        let newDate = moment(date, 'YYYY-MM-DD').toDate().getTime();
-        return { date: newDate, value: close };
+        const nowStr = `${moment(new Date()).format('YYYY-MM-DD')} ${date}`;
+        // const newDate = moment(date, 'YYYY-MM-DD').toDate().getTime();
+
+        return { date: moment(nowStr, 'YYYY-MM-DD HH:mm:ss.SSSSSS').toDate(), value: +close };
       }), { y: '$ Close' });
 
       this.init();
-      setTimeout(() => {
-        this.chartGraph();
-      }, 0);
+      this.chartGraph();
     });
   }
 
@@ -72,7 +77,8 @@ export class RickshawComponent implements OnInit, AfterViewInit {
     this.y = d3
       .scaleLinear()
       // .domain([0, d3.max(this.data, (d) => d.value)])
-      .domain([0, 1000])
+      .domain([this.getMinValue(), this.getMaxValue()])
+      // .domain([0, 1000])
       .nice()
       .range([this.height - this.margin.bottom, this.margin.top]);
 
@@ -88,19 +94,19 @@ export class RickshawComponent implements OnInit, AfterViewInit {
 
     // this.yAxis = this.svg.selectAll('.yAxis')
     this.yAxis = g => g
-    // .attr("class", "grid")
+      // .attr("class", "grid")
       .attr('transform', `translate(${this.margin.left},0)`)
       .call(d3.axisLeft(this.y))
-      // .call((g) => g.select('.domain').remove())
-      // .call((g) =>
-      //   g
-      //     .select('.tick:last-of-type text')
-      //     .clone()
-      //     .attr('x', 3)
-      //     .attr('text-anchor', 'start')
-      //     .attr('font-weight', 'bold')
-      //     .text(this.data.y)
-      // );
+    // .call((g) => g.select('.domain').remove())
+    // .call((g) =>
+    //   g
+    //     .select('.tick:last-of-type text')
+    //     .clone()
+    //     .attr('x', 3)
+    //     .attr('text-anchor', 'start')
+    //     .attr('font-weight', 'bold')
+    //     .text(this.data.y)
+    // );
 
     this.curve = d3.curveLinear;
 
@@ -121,19 +127,21 @@ export class RickshawComponent implements OnInit, AfterViewInit {
     this.svg.append('linearGradient')
       .attr('id', 'area-gradient')
       .attr('gradientUnits', 'userSpaceOnUse')
+      // .attr('x1', 0).attr('y1', this.y(this.getMinValue()))
       .attr('x1', 0).attr('y1', this.y(0))
-      .attr('x2', 0).attr('y2', this.y(1000))
+      .attr('x2', 0).attr('y2', this.y(this.getMaxValue()))
       .selectAll('stop')
       .data([
         { offset: '0%', color: 'rgba(255, 255, 0, 0)' },
-        { offset: '15%', color: 'rgba(255, 255, 0, .15)' },
-        { offset: '30%', color: 'rgba(255, 255, 0, .30)' },
-        { offset: '45%', color: 'rgba(255, 255, 0, .45)' },
-        { offset: '55%', color: 'rgba(255, 255, 0, .55)' },
-        { offset: '60%', color: 'rgba(255, 255, 0, .66)' },
-        { offset: '100%', color: 'rgb(255, 255, 0)' }
+        { offset: '15%', color: 'rgba(255, 255, 0, .1)' },
+        { offset: '30%', color: 'rgba(255, 255, 0, .25)' },
+        { offset: '45%', color: 'rgba(255, 255, 0, .3)' },
+        { offset: '55%', color: 'rgba(255, 255, 0, .4)' },
+        { offset: '60%', color: 'rgba(255, 255, 0, .5)' },
+        { offset: '100%', color: 'rgba(255, 255, 0, .6)' },
       ])
-      .enter().append('stop')
+      .enter()
+      .append('stop')
       .attr('offset', (d) => d.offset)
       .attr('stop-color', (d) => d.color);
 
@@ -156,5 +164,29 @@ export class RickshawComponent implements OnInit, AfterViewInit {
     this.svg.selectAll('.yAxis').call(this.yAxis);
 
     return this.svg.node();
+  }
+
+  getMaxValue(): number {
+    let maxValue = 100;
+    if (this.data && this.data.length > 0) {
+      let lstValues = Array.from(new Set(this.data.map(item => item.value)));
+      lstValues = lstValues.sort((value1, value2) => value2 - value1);
+      if (lstValues && lstValues.length > 0) {
+        maxValue = lstValues[0];
+      }
+    }
+    return maxValue;
+  }
+
+  getMinValue(): number {
+    let minValue = 0;
+    if (this.data && this.data.length > 0) {
+      let lstValues = Array.from(new Set(this.data.map(item => item.value)));
+      lstValues = lstValues.sort((value1, value2) => value1 - value2);
+      if (lstValues && lstValues.length > 0) {
+        minValue = lstValues[0] > 0 ? 0 : lstValues[0];
+      }
+    }
+    return minValue;
   }
 }
