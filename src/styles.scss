@@ -15,24 +15,24 @@ body {
 //   stroke: #c7bc24;
 //   stroke-width: 2px;
 // }
-// .xAxis {
-//   color: #c7bc24;
-//   .tick {
-//     // display: none;
-//   }
-// }
-// .yAxis {
-//   stroke: #c7bc24;
-//   .domain {
-//     stroke: #2d2a52;
-//   }
-//   .tick > text {
-//     stroke: #c7bc24;
-//   }
-//   .tick > line {
-//     stroke: transparent;
-//   }
-// }
+.xAxis {
+  color: #c7bc24;
+  .tick line, .tick text {
+    // display: none;
+  }
+}
+.yAxis {
+  stroke: #c7bc24;
+  .domain {
+    stroke: #2d2a52;
+  }
+  .tick > text {
+    stroke: #c7bc24;
+  }
+  .tick > line {
+    stroke: transparent;
+  }
+}
 
 // .area-custom-color {
 //   fill: url(#area-gradient);
@@ -63,16 +63,17 @@ body {
 }
 .line {
   fill: none;
-  stroke: #f1c40f;
+  stroke: #d9d965;
   stroke-width: 3px;
 }
 .smoothline {
   fill: none;
-  stroke: #e74c3c;
+  stroke: #d9d965;
   stroke-width: 3px;
 }
 .area {
-  fill: #e74c3c;
+  // fill: #e74c3c;
+  fill: url(#area-gradient);
   opacity: 0.5;
 }
 .circle {

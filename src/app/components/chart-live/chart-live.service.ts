@@ -11,7 +11,7 @@ export class ChartLiveService {
   constructor(private http: HttpClient) { }
 
   public liveTrama(): Observable<StrucData[]> {
-    let switchJson = 30;
+    let switchJson = 31;
     return interval(1000).pipe(
       switchMap(() => {
         const fileName = `./assets/tramasJson/trama_${switchJson}.json`;
