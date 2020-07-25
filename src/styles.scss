@@ -15,41 +15,73 @@ body {
 //   stroke: #c7bc24;
 //   stroke-width: 2px;
 // }
-.xAxis {
-  color: #c7bc24;
-  .tick {
-    // display: none;
-  }
-}
-.yAxis {
-  stroke: #c7bc24;
-  .domain {
-    stroke: #2d2a52;
-  }
-  .tick > text {
-    stroke: #c7bc24;
-  }
-  .tick > line {
-    stroke: transparent;
-  }
-}
+// .xAxis {
+//   color: #c7bc24;
+//   .tick {
+//     // display: none;
+//   }
+// }
+// .yAxis {
+//   stroke: #c7bc24;
+//   .domain {
+//     stroke: #2d2a52;
+//   }
+//   .tick > text {
+//     stroke: #c7bc24;
+//   }
+//   .tick > line {
+//     stroke: transparent;
+//   }
+// }
 
-.area-custom-color {
-  fill: url(#area-gradient);
-  // fill: #4ca3bd;
+// .area-custom-color {
+//   fill: url(#area-gradient);
+//   // fill: #4ca3bd;
+// }
+// .line {
+//   fill: none;
+//   stroke: #d9d965;
+//   stroke-width: 3px;
+// }
+
+// .grid line {
+//   stroke: lightgrey;
+//   stroke-opacity: 0.7;
+//   shape-rendering: crispEdges;
+// }
+
+// .grid path {
+//   stroke-width: 0;
+// }
+
+// =====================================
+
+.axis {
+  font-family: sans-serif;
+  fill: #d35400;
+  font-size: 12px;
 }
 .line {
   fill: none;
-  stroke: #d9d965;
+  stroke: #f1c40f;
   stroke-width: 3px;
 }
-
-.grid line {
-  stroke: lightgrey;
-  stroke-opacity: 0.7;
-  shape-rendering: crispEdges;
+.smoothline {
+  fill: none;
+  stroke: #e74c3c;
+  stroke-width: 3px;
 }
-
-.grid path {
-  stroke-width: 0;
+.area {
+  fill: #e74c3c;
+  opacity: 0.5;
+}
+.circle {
+  stroke: #e74c3c;
+  stroke-width: 3px;
+  fill: #FFF;
+}
+.grid {
+  stroke: #DDD;
+  stroke-width: 1px;
+  fill: none;
 }

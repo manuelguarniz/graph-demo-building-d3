@@ -17,6 +17,7 @@ import { TestTwoSubjectComponent } from './components/test-two-subject/test-two-
 import { FormsModule } from '@angular/forms';
 import { AppService } from './app.service';
 import { AppRoutingModule } from './app-routing.module';
+import { ChartLiveComponent } from './components/chart-live/chart-live.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AppRoutingModule } from './app-routing.module';
     RickshawComponent,
     TestSubjectComponent,
     TestTwoSubjectComponent,
+    ChartLiveComponent,
   ],
   imports: [
     BrowserModule,
