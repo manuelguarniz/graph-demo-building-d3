@@ -28,6 +28,7 @@ export class RickshawComponent implements OnInit, AfterViewInit {
   data: { date: Date, value: number }[] = [];
   chart: any;
   valueline: any;
+  path: any;
 
   constructor() { }
 
@@ -138,7 +139,7 @@ export class RickshawComponent implements OnInit, AfterViewInit {
       .attr('class', 'area-custom-color')
       .attr('d', this.area);
 
-    this.svg
+    this.path = this.svg
       .append('path')
       .data([this.data])
       .attr('class', 'line')
@@ -154,6 +155,13 @@ export class RickshawComponent implements OnInit, AfterViewInit {
     this.createXAxis();
     this.createYAxis();
 
+    const liveXAxis = this.svg.selectAll('.xAxis');
+    liveXAxis.
+      transition()
+      .duration(5000)
+      .ease(d3.easeLinear, 2)
+      .call(this.xAxis);
+
     this.svg.selectAll('linearGradient')
       .attr('x2', 0).attr('y2', this.y(this.getMaxValue()));
 
@@ -165,7 +173,7 @@ export class RickshawComponent implements OnInit, AfterViewInit {
       .attr('d', this.area);
 
     this.svg.selectAll('.line').remove();
-    this.svg
+    this.path = this.svg
       .append('path')
       .data([this.data])
       .attr('class', 'line')
