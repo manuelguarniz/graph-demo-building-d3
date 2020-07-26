@@ -16,18 +16,18 @@ body {
 //   stroke-width: 2px;
 // }
 .xAxis {
-  color: #c7bc24;
+  color: #7c2156;
   .tick line, .tick text {
     // display: none;
   }
 }
 .yAxis {
-  stroke: #c7bc24;
+  stroke: #3a3865;
   .domain {
-    stroke: #2d2a52;
+    stroke: #3a3865;
   }
   .tick > text {
-    stroke: #c7bc24;
+    stroke: #ffff6a;
   }
   .tick > line {
     stroke: transparent;
@@ -56,33 +56,28 @@ body {
 
 // =====================================
 
-.axis {
-  font-family: sans-serif;
-  fill: #d35400;
-  font-size: 12px;
-}
 .line {
   fill: none;
-  stroke: #d9d965;
+  stroke: #ffff6a;
   stroke-width: 3px;
 }
 .smoothline {
   fill: none;
-  stroke: #d9d965;
+  stroke: #ffff6a;
   stroke-width: 1px;
 }
 .area {
-  // fill: #e74c3c;
   fill: url(#area-gradient);
   opacity: 0.5;
 }
-.circle {
-  stroke: #e74c3c;
-  stroke-width: 3px;
-  fill: #FFF;
-}
 .grid {
   stroke: #DDD;
+  stroke-width: 1px;
+  stroke-dasharray: 3;
+  fill: none;
+}
+.grid-top {
+  stroke: #7c2156;
   stroke-width: 1px;
   fill: none;
 }

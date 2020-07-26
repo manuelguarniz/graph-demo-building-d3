@@ -12,9 +12,9 @@ import { ChartLiveService } from './chart-live.service';
   ]
 })
 export class ChartLiveComponent implements OnInit {
-  margin = { top: 20, right: 20, bottom: 50, left: 50 };
-  width = 500 - this.margin.left - this.margin.right;
-  height = 300 - this.margin.top - this.margin.bottom;
+  margin = { top: 20, right: 20, bottom: 30, left: 30 };
+  width = 960 - this.margin.left - this.margin.right;
+  height = 500 - this.margin.top - this.margin.bottom;
 
   indexOriginData = 0;
   originData: StrucData[] = [];
@@ -84,8 +84,8 @@ export class ChartLiveComponent implements OnInit {
   initialize() {
     this.x = d3.scaleLinear()
       .domain([0, this.width])
-      // .domain([0, this.width - this.margin.left - this.margin.right])
-      .range([0, this.width - 3]);
+      // .domain([this.margin.left, this.width - this.margin.right]);
+      .range([0, this.width]);
       // .range([0, 500]);
     this.y = d3.scaleLinear()
       // .domain([0, 500])
@@ -125,24 +125,7 @@ export class ChartLiveComponent implements OnInit {
     this.createXAxis();
     this.createYAxis();
 
-    // this.svg.append('path').datum([{ x: 0, y: 150 }, { x: 500, y: 150 }])
-    //   .attr('class', 'grid')
-    //   .attr('d', this.line);
-    // this.chart.append('path').datum([{ x: 0, y: 300 }, { x: 500, y: 300 }])
-    //   .attr('class', 'grid')
-    //   .attr('d', this.line);
-    // this.chart.append('path').datum([{ x: 0, y: 450 }, { x: 500, y: 450 }])
-    //   .attr('class', 'grid')
-    //   .attr('d', this.line);
-    // this.chart.append('path').datum([{ x: 50, y: 0 }, { x: 50, y: 500 }])
-    //   .attr('class', 'grid')
-    //   .attr('d', this.line);
-    // this.chart.append('path').datum([{ x: 250, y: 0 }, { x: 250, y: 500 }])
-    //   .attr('class', 'grid')
-    //   .attr('d', this.line);
-    // this.chart.append('path').datum([{ x: 450, y: 0 }, { x: 450, y: 500 }])
-    //   .attr('class', 'grid')
-    //   .attr('d', this.line);
+    this.createLines();
 
     this.gradient = this.svg.append('linearGradient')
       .attr('id', 'area-gradient')
@@ -190,6 +173,8 @@ export class ChartLiveComponent implements OnInit {
     this.data.push(currentData);
     this.indexOriginData++;
 
+    this.updateLines();
+
     this.path.datum(this.data)
       .attr('class', 'smoothline')
       .attr('d', this.smoothLine);
@@ -197,44 +182,28 @@ export class ChartLiveComponent implements OnInit {
       .attr('class', 'area')
       .attr('d', this.lineArea);
 
-
     this.path.attr('transform', null)
       .transition()
       .duration(this.duration)
       .ease(d3.easeLinear, 2)
-      .attr('transform', 'translate(' + this.x(this.globalX - this.max) + ')');
+      .attr('transform', `translate(0, ${this.x(this.globalX - this.max)})`);
 
     this.areaPath.attr('transform', null)
       .transition()
       .duration(this.duration)
       .ease(d3.easeLinear, 2)
-      .attr('transform', 'translate(' + this.x(this.globalX - this.max) + ')')
+      .attr('transform', `translate(0, ${this.x(this.globalX - this.max)})`)
       .on('end', () => this.tick());
 
     this.svg.selectAll('linearGradient')
       .attr('x2', 0).attr('y2', this.y(this.getMaxValueY()));
 
-    // Update X
-    this.x.domain([this.globalX - (this.max - this.step), this.globalX]);
-    console.log(this.globalX - (this.max - this.step), 'x0');
-    console.log(this.globalX, 'x1');
-    // this.x.domain([92, 96]);
+    this.updateXAxis();
+    this.updateYAxis();
 
-    this.axisX.transition()
-      .duration(this.duration)
-      .ease(d3.easeLinear, 2)
-      .call(this.xAxis);
-
-    // Update Y
-    this.y.domain([this.getMinValueY(), this.getMaxValueY()]);
-    this.axisY.transition()
-      .duration(this.duration)
-      .ease(d3.easeLinear, 2)
-      .call(this.yAxis);
-
-    // if (this.data.length > 60) {
-    //   this.data.shift();
-    // }
+    if (this.data.length > (60 * 5.15)) {
+      this.data.shift();
+    }
   }
 
   createXAxis() {
@@ -248,7 +217,6 @@ export class ChartLiveComponent implements OnInit {
       .attr('transform', `translate(${this.margin.left},${this.height - this.margin.bottom})`)
       .call(this.xAxis);
   }
-
 
   createYAxis() {
     this.y = d3
@@ -264,6 +232,67 @@ export class ChartLiveComponent implements OnInit {
     this.axisY
       .attr('class', 'yAxis')
       .call(this.yAxis);
+  }
+
+  createLines() {
+    this.svg.append('path')
+      .datum([{ x: this.globalX - (this.max - this.step), y: 0 }, { x: this.getMaxValueX(), y: 0 }])
+      .attr('class', 'grid')
+      .attr('d', this.line);
+    this.svg.append('path')
+      .datum([{ x: this.globalX - (this.max - this.step), y: this.getMaxValueY() }, { x: this.getMaxValueX(), y: this.getMaxValueY() }])
+      .attr('class', 'grid-top')
+      .attr('d', this.line);
+    // this.svg.append('path').datum([{ x: 0, y: 300 }, { x: 500, y: 300 }])
+    //   .attr('class', 'grid')
+    //   .attr('d', this.line);
+    // this.svg.append('path').datum([{ x: 0, y: 450 }, { x: 500, y: 450 }])
+    //   .attr('class', 'grid')
+    //   .attr('d', this.line);
+    // this.svg.append('path').datum([{ x: 50, y: 0 }, { x: 50, y: 500 }])
+    //   .attr('class', 'grid')
+    //   .attr('d', this.line);
+    // this.svg.append('path').datum([{ x: 250, y: 0 }, { x: 250, y: 500 }])
+    //   .attr('class', 'grid')
+    //   .attr('d', this.line);
+    // this.svg.append('path').datum([{ x: 450, y: 0 }, { x: 450, y: 500 }])
+    //   .attr('class', 'grid')
+    //   .attr('d', this.line);
+  }
+
+  updateXAxis() {
+    // Update X
+    this.x.domain([this.globalX - (this.max - this.step), this.globalX]);
+      // .range([this.globalX - (this.max - this.step), this.globalX]);
+    // this.x.domain([92, 96]);
+
+    this.axisX.transition()
+      .duration(this.duration)
+      .ease(d3.easeLinear, 2)
+      .call(this.xAxis);
+
+  }
+
+  updateYAxis() {
+    // Update Y
+    this.y.domain([this.getMinValueY(), this.getMaxValueY()]);
+    this.axisY.transition()
+      .duration(this.duration)
+      .ease(d3.easeLinear, 2)
+      .call(this.yAxis);
+  }
+
+  updateLines() {
+    const minValueX = this.globalX;
+
+    this.svg.selectAll('.grid')
+      .datum([{ x: this.getMaxValueX(), y: 0 }, { x: minValueX, y: 0 }])
+      .attr('d', this.line);
+
+    this.svg.selectAll('.grid-top')
+      .datum([{ x: minValueX, y: this.getMaxValueY() }, { x: this.getMaxValueX(), y: this.getMaxValueY() }])
+      .attr('d', this.line);
+
   }
 
   getMaxValueY(): number {
