@@ -14,7 +14,7 @@ import { ChartLiveService } from './chart-live.service';
 export class ChartLiveComponent implements OnInit {
   margin = { top: 20, right: 20, bottom: 50, left: 50 };
   width = 500 - this.margin.left - this.margin.right;
-  height = 500 - this.margin.top - this.margin.bottom;
+  height = 300 - this.margin.top - this.margin.bottom;
 
   indexOriginData = 0;
   originData: StrucData[] = [];
@@ -23,7 +23,7 @@ export class ChartLiveComponent implements OnInit {
   // width = 500;
   // height = 500;
   globalX = 0;
-  duration = 500; // frecuencia
+  duration = 50; // frecuencia
   // max = 500;
   max = this.width - this.margin.left - this.margin.right;
   step = 10;
@@ -47,8 +47,8 @@ export class ChartLiveComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.readJsonFile();
-    // this.streamingData();
+    // this.readJsonFile();
+    this.streamingData();
     this.initialize();
   }
 
@@ -59,7 +59,7 @@ export class ChartLiveComponent implements OnInit {
           this.originData.push(...response);
           this.tick();
         } else {
-          // this.originData.push(...response);
+          this.originData.push(...response);
         }
       }
     );
@@ -85,7 +85,7 @@ export class ChartLiveComponent implements OnInit {
     this.x = d3.scaleLinear()
       .domain([0, this.width])
       // .domain([0, this.width - this.margin.left - this.margin.right])
-      .range([0, this.width]);
+      .range([0, this.width - 3]);
       // .range([0, 500]);
     this.y = d3.scaleLinear()
       // .domain([0, 500])
@@ -125,7 +125,7 @@ export class ChartLiveComponent implements OnInit {
     this.createXAxis();
     this.createYAxis();
 
-    // this.chart.append('path').datum([{ x: 0, y: 150 }, { x: 500, y: 150 }])
+    // this.svg.append('path').datum([{ x: 0, y: 150 }, { x: 500, y: 150 }])
     //   .attr('class', 'grid')
     //   .attr('d', this.line);
     // this.chart.append('path').datum([{ x: 0, y: 300 }, { x: 500, y: 300 }])
@@ -171,22 +171,24 @@ export class ChartLiveComponent implements OnInit {
 
   }
   tick() {
-    const point = {
-      x: this.globalX,
-      y: ((Math.random() * (this.height - this.margin.bottom)) / 5)
-    };
-    console.log(point);
-    this.data.push(point);
-    this.globalX += this.step;
-
-    // if (this.indexOriginData >= 60) {
-    //   this.indexOriginData = 0;
+    // const point = {
+    //   x: this.globalX,
+    //   y: ((Math.random() * (this.height - this.margin.bottom)) / 5)
+    // };
+    // console.log(point);
+    // this.data.push(point);
+    // this.globalX += this.step;
+    // if (this.indexOriginData >= 60 ) {
+    //   return;
     // }
-    // const currentData = this.originData[this.indexOriginData];
-    // this.step = currentData.x - this.globalX;
-    // this.globalX = currentData.x;
-    // this.data.push(currentData);
-    // this.indexOriginData++;
+
+    const currentData = this.originData[this.indexOriginData];
+    this.step = currentData.x - this.globalX;
+    this.globalX += this.step;
+    this.max = this.getMaxValueX();
+    console.log(currentData, 'step: ' + this.step);
+    this.data.push(currentData);
+    this.indexOriginData++;
 
     this.path.datum(this.data)
       .attr('class', 'smoothline')
@@ -212,11 +214,11 @@ export class ChartLiveComponent implements OnInit {
     this.svg.selectAll('linearGradient')
       .attr('x2', 0).attr('y2', this.y(this.getMaxValueY()));
 
-    console.log(this.globalX, 'globalX');
-    console.log(this.getMaxValueX(), 'max');
     // Update X
     this.x.domain([this.globalX - (this.max - this.step), this.globalX]);
-    // this.x.domain([91, 94]);
+    console.log(this.globalX - (this.max - this.step), 'x0');
+    console.log(this.globalX, 'x1');
+    // this.x.domain([92, 96]);
 
     this.axisX.transition()
       .duration(this.duration)
@@ -230,9 +232,9 @@ export class ChartLiveComponent implements OnInit {
       .ease(d3.easeLinear, 2)
       .call(this.yAxis);
 
-    if (this.data.length > 31) {
-      this.data.shift();
-    }
+    // if (this.data.length > 60) {
+    //   this.data.shift();
+    // }
   }
 
   createXAxis() {
