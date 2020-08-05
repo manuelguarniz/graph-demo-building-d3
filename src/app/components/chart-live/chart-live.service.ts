@@ -19,7 +19,7 @@ export class ChartLiveService {
 
         switchJson++;
         if (switchJson >= 119) {
-          switchJson = 0;
+          switchJson = 31;
         }
 
         return this.http.get<any>(fileName).pipe(
